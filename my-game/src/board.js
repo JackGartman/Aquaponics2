@@ -1,25 +1,42 @@
-export function TicTacToeBoard({ G, ctx, moves, playerID }) {
+// src/board.js
+
+
+export function ClickBoard({ G, moves }) {
+
+  console.log("Current screen:", G.currentScreen);
+  const isGreen = G.currentScreen === 'green';
+
+  const style = {
+    width: '100vw',
+    height: '100vh',
+    backgroundColor: isGreen ? 'green' : 'red',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  };
+
+  const buttonStyle = {
+    backgroundColor: isGreen ? 'red' : 'green',
+    color: 'white',
+    fontSize: '1.5rem',
+    border: 'none',
+    borderRadius: '10px',
+    padding: '1rem 2rem',
+    cursor: 'pointer',
+  };
+
+  console.log("Current screen:", G.currentScreen);
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 80px)' }}>
-      {G.cells.map((cell, idx) => (
-        <div
-          key={idx}
-          onClick={() => moves.clickCell(idx)}
-          style={{
-            width: 80,
-            height: 80,
-            border: '1px solid black',
-            fontSize: '2rem',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            cursor: 'pointer',
-          }}
-        >
-          {cell ?? ''}
-        </div>
-      ))}
-      {ctx.gameover && <p>Game Over!</p>}
+    <div style={style}>
+      {isGreen ? (
+        <button style={buttonStyle} onClick={() => moves.goToRed()}>
+          Go to Red Screen
+        </button>
+      ) : (
+        <button style={buttonStyle} onClick={() => moves.goToGreen()}>
+          Go to Green Screen
+        </button>
+      )}
     </div>
   );
 }

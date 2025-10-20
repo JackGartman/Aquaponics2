@@ -1,19 +1,14 @@
 import { Client } from 'boardgame.io/react';
-import { TicTacToe } from './game';
-import { TicTacToeBoard } from './board';
+import { ClickGame } from './game';
+import { ClickBoard } from './board';
 
-const TicTacToeClient = Client({
-  game: TicTacToe,
-  board: TicTacToeBoard,
+const ClickClient = Client({
+  game: ClickGame,
+  board: ClickBoard,
 });
 
 function App() {
-  return (
-    <div>
-      <h1>Tic Tac Toe</h1>
-      <TicTacToeClient playerID="0" />
-    </div>
-  );
+  return <ClickClient playerID="0" />; // <-- add this
 }
 
 export default App;
