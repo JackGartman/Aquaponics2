@@ -1,14 +1,10 @@
 // src/board.js
-import { useState } from 'react';
+
 
 export function ClickBoard({ G, moves }) {
 
   console.log("Current screen:", G.currentScreen);
-  const [isGreen, setIsGreen] = useState(true);
-
-  function handleClick() {
-    setIsGreen(!isGreen);
-  }
+  const isGreen = G.currentScreen === 'green';
 
   const style = {
     width: '100vw',
@@ -28,16 +24,16 @@ export function ClickBoard({ G, moves }) {
     padding: '1rem 2rem',
     cursor: 'pointer',
   };
-  console.log("Current isGreen:", isGreen);
+
   console.log("Current screen:", G.currentScreen);
   return (
     <div style={style}>
       {isGreen ? (
-        <button style={buttonStyle} onClick={() => handleClick('red')}>
+        <button style={buttonStyle} onClick={() => moves.goToRed()}>
           Go to Red Screen
         </button>
       ) : (
-        <button style={buttonStyle} onClick={() => handleClick('green')}>
+        <button style={buttonStyle} onClick={() => moves.goToGreen()}>
           Go to Green Screen
         </button>
       )}
