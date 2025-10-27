@@ -1,7 +1,11 @@
 // src/board.js
-
+import React, { useEffect, useRef } from 'react';
+import { initPixi } from './pixiApp';
 
 export function ClickBoard({ G, moves }) {
+
+  const pixiContainerRef = useRef(null); // 
+  const appRef = useRef(null);
 
   console.log("Current screen:", G.currentScreen);
   const isGreen = G.currentScreen === 'green';
@@ -25,9 +29,48 @@ export function ClickBoard({ G, moves }) {
     cursor: 'pointer',
   };
 
+  // Initialize Pixi once when board mounts
+   useEffect(() => {
+    let app;
+    // you might pass dimensions if you want a fixed size or container size
+    initPixi(pixiContainerRef.current, window.innerWidth, window.innerHeight)
+      .then(instance => {
+        appRef.current = instance;
+      });
+
+    return () => {
+      if (appRef.current) {
+        appRef.current.destroy(true);
+      }
+    };
+  }, []);
+
+
   console.log("Current screen:", G.currentScreen);
   return (
-    <div style={style}>
+  <div style={{position: 'relative', width: '100vw', height: '100vh', overflow: 'hidden' }}>
+      <div
+        ref={pixiContainerRef}
+        style={{
+          position: 'absolute',
+          top: 0, left: 0,
+          width: '100%', height: '100%',
+          zIndex: 0,
+        }}
+      />
+      <div
+        style={{
+          position: 'absolute',
+          top: 0, left: 0,
+          width: '100%', height: '100%',
+          zIndex: 1,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          pointerEvents: 'auto'  // maybe allow the UI elements only to intercept interactions
+        }}
+      >
       {isGreen ? (
         <button style={buttonStyle} onClick={() => moves.goToRed()}>
           Go to Red Screen
@@ -38,5 +81,6 @@ export function ClickBoard({ G, moves }) {
         </button>
       )}
     </div>
+     </div>
   );
 }
